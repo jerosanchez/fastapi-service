@@ -31,6 +31,8 @@ all: install format lint test build deploy
 
 serve:
 	@echo "Starting development server..."
+	@. .venv/bin/activate && \
+		fastapi dev app/main.py
 
 precommit: format lint test
 	@echo "Pre-commit checks passed."
@@ -51,4 +53,4 @@ clean:
 	@rm -rf .coverage
 	@rm -rf htmlcov
 
-.PHONY: install format lint test build deploy all serve clean
+.PHONY: install format lint test build deploy all serve precommit clean
