@@ -1,24 +1,51 @@
 install:
-	@echo "Installing the application..."
+	@echo "Installing application..."
+	@python3 -m venv .venv
+	@. .venv/bin/activate && \
+		pip install --upgrade -r requirements.txt
 
 format:
-	@echo "Formatting the code..."
+	@echo "Formatting code..."
+	@. .venv/bin/activate && \
+		black .
 
 lint:
-	@echo "Linting the code..."
+	@echo "Linting code..."
+	@. .venv/bin/activate && \
+		pylint main.py **/*.py
+	@echo "Linting documentation..."
+	@markdownlint **/*.md
 
 test:
 	@echo "Running tests..."
+	@. .venv/bin/activate && \
+		pytest tests/
 
 build:
-	@echo "Building the application..."
+	@echo "Building application..."
 
 deploy:
-	@echo "Deploying the application..."
+	@echo "Deploying application..."
 
 all: install format lint test build deploy
 
 serve:
-	@echo "Starting the development server..."
+	@echo "Starting development server..."
 
-.PHONY: install format lint test build deploy all serve
+clean:
+	@echo "Cleaning up..."
+	@rm -rf .venv
+	@rm -rf __pycache__
+	@rm -rf **/__pycache__
+	@rm -rf *.pyc
+	@rm -rf **/*.pyc
+	@rm -rf *.pyo
+	@rm -rf **/*.pyo
+	@rm -rf *.egg-info
+	@rm -rf **/*.egg-info
+	@rm -rf .pytest_cache
+	@rm -rf .mypy_cache
+	@rm -rf .coverage
+	@rm -rf htmlcov
+
+.PHONY: install format lint test build deploy all serve clean
