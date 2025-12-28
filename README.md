@@ -1,3 +1,11 @@
+<!-- markdownlint-disable MD041 -->
+
+![CI/CD Pipeline](https://github.com/jerosanchez/fastapi-service-base/actions/workflows/deploy.yaml/badge.svg)
+![Beta](https://img.shields.io/badge/status-beta-yellow)
+![Python Version](https://img.shields.io/badge/python-3.13-blue)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Docs](https://img.shields.io/badge/docs-available-brightgreen)
+
 # README
 
 ## Getting Started
