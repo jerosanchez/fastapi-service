@@ -94,6 +94,7 @@ Since this repository was created from a template, you'll need to customize seve
 If you're using GitHub Actions for CI/CD:
 
 - Update workflow files in `.github/workflows/` to reference your repository
+- Ensure the Python version used in the pipelines matches the one used in Dockerfile
 - Add required secrets in GitHub repository settings (e.g., `POSTGRES_PASSWORD`, API keys)
 - Update deployment targets and environment configurations
 
@@ -104,9 +105,9 @@ After customizing, verify your changes:
 - Search for `fastapi-service`, `MyApp`, and `jerosanchez` across the codebase
 - Ensure all references point to your new project name
 
-### 5. Run and test the basic service
+### 5. Run, test, and verify your changes
 
-Start the FastAPI service:
+Start the FastAPI service locally:
 
 ```sh
 make start
@@ -118,14 +119,33 @@ You should see a welcome message indicating the service is working.
 
 You can also check the interactive API docs at [http://localhost:8000/docs](http://localhost:8000/docs).
 
-### 6. Start building your FastAPI service
+After verifying the service works locally, run the tests to ensure everything passes:
 
-This project provides a foundation for new FastAPI services. To begin building your own service:
+```sh
+make test
+```
 
-1. Create new API routes in the `app/api/` directory (e.g., add modules under `app/api/v1/`).
-2. Define your data models in `app/models/`.
-3. Add business logic and reusable functions in `app/services/`.
-4. Update configuration as needed in `app/core/config.py`.
-5. Register your new routes in `app/main.py`.
+If all tests pass, commit and push your changes to the repository:
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
+```sh
+git add .
+git commit -m "Customize project files"
+git push
+```
+
+Then, go to your repository on GitHub and check the Actions tab to verify that the CI/CD pipeline runs and passes successfully. This ensures your changes are correctly integrated and deployed.
+
+---
+
+### 6. Clean up and document your project
+
+Once you have completed the customization and verified everything works (steps 4 and 5), you should:
+
+- **Remove steps 4 and 5 from this README** (as well as this step 6 when ready) to keep your documentation clean and relevant for future contributors.
+- **Add any relevant information about your new project** to this README, such as:
+  - Project overview and features
+  - Setup or deployment instructions specific to your service
+  - Usage examples
+  - Any other important notes for users or contributors
+
+This will help ensure your README is up-to-date and useful for your team and users.
