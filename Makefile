@@ -37,6 +37,21 @@ stop:
 	@echo "Stopping services with Docker Compose..."
 	@docker compose down
 
+db-reset: ## Reset Docker PostgreSQL volumes
+	@echo "WARNING: This will delete all PostgreSQL data!"
+	@read -p "Are you sure? (y/N): " confirm && [ "$$confirm" = "y" ] || [ "$$confirm" = "Y" ]
+	docker compose -f docker-compose.yml down -v
+	docker volume prune -f
+
+db-revision: ## Create a new migration
+	@read -p "Enter migration message: " msg; \
+	@. .venv/bin/activate && \
+		alembic revision --autogenerate -m \"$$msg\""
+
+db-migrate: ## Run database migrations
+	@. .venv/bin/activate && \
+		alembic upgrade head
+
 precommit: format lint test
 	@echo "Pre-commit checks passed."
 
@@ -56,4 +71,4 @@ clean:
 	@rm -rf .coverage
 	@rm -rf htmlcov
 
-.PHONY: install format lint test build deploy all start stop precommit clean
+.PHONY: install format lint test build deploy all start stop db-reset db-revision db-migrate precommit clean

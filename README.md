@@ -98,14 +98,46 @@ If you're using GitHub Actions for CI/CD:
 - Add required secrets in GitHub repository settings (e.g., `POSTGRES_PASSWORD`, API keys)
 - Update deployment targets and environment configurations
 
-#### Quick Start Checklist
+#### 4.5 Quick Start Checklist
 
 After customizing, verify your changes:
 
 - Search for `fastapi-service`, `MyApp`, and `jerosanchez` across the codebase
 - Ensure all references point to your new project name
 
-### 5. Run, test, and verify your changes
+### 5. Set up database migrations
+
+Initialize Alembic:
+
+```sh
+alembic init alembic
+```
+
+This creates an `alembic/` directory with migration scripts and configuration files.
+
+Next, configure Alembic to use your application's database settings. Open `alembic/env.py` and update it as follows:
+
+```python
+from app.core.config import config
+from app.db.engine import Base
+
+target_metadata = Base.metadata
+
+# Set the SQLAlchemy URL dynamically from your app settings
+config.set_main_option("sqlalchemy.url", config.db_url)
+```
+
+Now you can generate and apply migrations:
+
+```sh
+# Generate a new migration after model changes
+alembic revision --autogenerate -m "Describe your migration"
+
+# Apply migrations to the database
+alembic upgrade head
+```
+
+### 6. Run, test, and verify your changes
 
 Start the FastAPI service locally:
 
@@ -137,11 +169,11 @@ Then, go to your repository on GitHub and check the Actions tab to verify that t
 
 ---
 
-### 6. Clean up and document your project
+### 7. Clean up and document your project
 
 Once you have completed the customization and verified everything works (steps 4 and 5), you should:
 
-- **Remove steps 4 and 5 from this README** (as well as this step 6 when ready) to keep your documentation clean and relevant for future contributors.
+- **Remove steps 4 to 6 from this README** (as well as this step 7 when ready) to keep your documentation clean and relevant for future contributors.
 - **Add any relevant information about your new project** to this README, such as:
   - Project overview and features
   - Setup or deployment instructions specific to your service
