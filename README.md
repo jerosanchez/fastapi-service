@@ -124,7 +124,8 @@ from app.db.engine import Base
 target_metadata = Base.metadata
 
 # Set the SQLAlchemy URL dynamically from your app settings
-config.set_main_option("sqlalchemy.url", config.db_url)
+db_url = os.environ.get("ALEMBIC_DB_URL", settings.db_url)
+config.set_main_option("sqlalchemy.url", db_url)
 ```
 
 Now you can generate and apply migrations:
